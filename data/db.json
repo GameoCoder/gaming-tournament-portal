@@ -1,0 +1,159 @@
+{
+  "users": [
+    {
+      "username": "AdminGT",
+      "email": "admin@gtp.com",
+      "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+      "role": "organizer"
+    },
+    {
+      "username": "candy1912",
+      "email": "player@gtp.com",
+      "passwordHash": "e41abfd6daf8ad3289f41e5ed0cfe8f5c705dbb40531efdf63e110118b7594f2",
+      "role": "player"
+    },
+    {
+      "username": "SpectatorOne",
+      "email": "spectator@gtp.com",
+      "passwordHash": "3abbb2b517aae55fdc2dd4ef8e72cd298d35feea7c8b267dda6dfa71076d080a",
+      "role": "spectator"
+    }
+  ],
+  "tournaments": [
+    {
+      "id": "valorant-cup",
+      "name": "Valorant Weekend Cup",
+      "game": "Valorant",
+      "date": "2026-10-01 17:00",
+      "mode": "Online",
+      "prize": "$500 + MVP Badge",
+      "status": "Live",
+      "description": "5v5 Competitive tournament on Haven & Ascent. Single elimination format."
+    },
+    {
+      "id": "bgmi-showdown",
+      "name": "BGMI Showdown",
+      "game": "BGMI / PUBG Mobile",
+      "date": "2026-10-05 19:00",
+      "mode": "Online",
+      "prize": "$1,000 Pool",
+      "status": "Upcoming",
+      "description": "Squad Battle Royale. 4 matches across Erangel, Miramar, and Sanhok."
+    },
+    {
+      "id": "cs2-invitational",
+      "name": "CS2 Pro Invitational",
+      "game": "Counter-Strike 2",
+      "date": "2026-10-10 20:00",
+      "mode": "Online",
+      "prize": "$2,500 Championship",
+      "status": "Upcoming",
+      "description": "MR12 format, competitive map pool with active anti-cheat enforcement."
+    }
+  ],
+  "leaderboard": [
+    {
+      "name": "Team Phoenix",
+      "points": 45,
+      "wins": 4,
+      "matches": 5
+    },
+    {
+      "name": "Night Raiders",
+      "points": 35,
+      "wins": 3,
+      "matches": 4
+    },
+    {
+      "name": "Pixel Squad",
+      "points": 28,
+      "wins": 2,
+      "matches": 4
+    },
+    {
+      "name": "Apex Predators",
+      "points": 22,
+      "wins": 2,
+      "matches": 3
+    },
+    {
+      "name": "Cyber Knights",
+      "points": 15,
+      "wins": 1,
+      "matches": 3
+    }
+  ],
+  "announcements": [
+    "🔥 Valorant Weekend Cup Grand Finals are LIVE now! Watch stream in Spectator Portal.",
+    "🏆 Prize pool for BGMI Showdown increased to $1,000 courtesy of sponsors.",
+    "⚡ WebRTC live telemetry enabled: transmit match scores directly peer-to-peer.",
+    "Welcome to the Gaming Tournament Portal! Registrations are open for all listed tournaments."
+  ],
+  "reactions": {
+    "🔥": 42,
+    "👏": 28,
+    "🎮": 74,
+    "🏆": 31,
+    "❤️": 19,
+    "⚡": 40
+  },
+  "streamConfig": {
+    "activeId": "5qap5aO4i9A",
+    "title": "CS2 Esports Arena",
+    "presets": [
+      {
+        "name": "VCT Highlights & Live",
+        "videoId": "jfKfPfyJRdk"
+      },
+      {
+        "name": "CS2 Esports Arena",
+        "videoId": "5qap5aO4i9A"
+      },
+      {
+        "name": "Apex Legends Showcase",
+        "videoId": "kXYiU_JCYtU"
+      }
+    ]
+  },
+  "liveMatchState": {
+    "tournamentId": "valorant-cup",
+    "matchTitle": "Grand Finals: Team Phoenix vs Night Raiders",
+    "map": "Haven",
+    "scoreA": 11,
+    "scoreB": 9,
+    "teamA": "Team Phoenix",
+    "teamB": "Night Raiders",
+    "round": 21,
+    "roundTime": "0:45",
+    "status": "In Progress",
+    "recentEvent": "Phoenix_Reyna clutched 1v2 on A Site!",
+    "lastUpdated": "9:36:57 am"
+  },
+  "registrations": {
+    "valorant-cup": [
+      "player@gtp.com"
+    ],
+    "fifa-clash": [],
+    "lol-5505": [
+      "player@gtp.com"
+    ]
+  },
+  "teams": [
+    {
+      "owner": "player@gtp.com",
+      "name": "Team Phoenix",
+      "members": [
+        "candy1912",
+        "Alex",
+        "Viper",
+        "Sova",
+        "Cypher"
+      ]
+    }
+  ],
+  "prizes": {
+    "valorant-cup": "1st: $350 + Trophy, 2nd: $150",
+    "fifa-clash": "Winner: $300 + Gold Medal",
+    "lol-5505": "5000000"
+  }
+}

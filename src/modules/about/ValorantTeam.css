@@ -1,0 +1,441 @@
+/* ==========================================================================
+   TEAM SHOWCASE & PLAYER CARD STYLES
+   Minimalist Esports Aesthetic — Clean Hover Zoom (No Pitch, Yaw, or Roll)
+   ========================================================================== */
+
+.valorant-showcase-container {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 3rem;
+  font-family: Inter, system-ui, sans-serif;
+  color: #f1f5f9;
+}
+
+/* Minimal Header */
+.valorant-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 1.25rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.valorant-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.35rem;
+  color: #ffffff;
+}
+
+.valorant-subtitle {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.tactical-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tactical-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   CARDS GRID & CLEAN ZOOM EFFECT
+   ========================================================================== */
+.valorant-cards-grid {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.v-card-container {
+  width: 320px;
+  max-width: 100%;
+  position: relative;
+  user-select: none;
+}
+
+/* The Card Body — ONLY ZOOMS ON HOVER (NO YAW / PITCH / ROLL) */
+.v-card {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  background-color: #0d131f;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  will-change: transform;
+}
+
+/* Clean Zoom In on Hover */
+.v-card.hovered,
+.v-card:hover {
+  transform: scale(1.04);
+  border-color: var(--theme-color, #ff4655);
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.8),
+    0 0 25px -5px var(--theme-glow, rgba(255, 70, 85, 0.35));
+}
+
+/* Outer Accent Border Line */
+.v-card-chamfer-border {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--theme-color, #ff4655);
+  z-index: 10;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.v-card.hovered .v-card-chamfer-border {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   PORTRAIT IMAGE (9:16) & INNER ZOOM
+   ========================================================================== */
+.v-card-image-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #090e17;
+  z-index: 1;
+}
+
+.v-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transform: scale(1);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+/* Smooth Image Zoom */
+.v-card.hovered .v-card-image,
+.v-card:hover .v-card-image {
+  transform: scale(1.08);
+}
+
+/* Dark Vignette Gradient */
+.v-card-vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(13, 19, 31, 0.5) 0%,
+    rgba(13, 19, 31, 0.05) 30%,
+    rgba(13, 19, 31, 0.75) 65%,
+    rgba(13, 19, 31, 0.98) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Top Minimal Header */
+.v-hud-header {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.v-hud-agent-id {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--theme-color, #ff4655);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.v-hud-rank-badge {
+  background: rgba(13, 19, 31, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+/* Bottom Card Content */
+.v-card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.2rem 1.1rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.v-card-role-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.v-card-role {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: var(--theme-color, #ff4655);
+  text-transform: uppercase;
+}
+
+.v-card-nameplate {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+/* Overview Box */
+.v-card-overview-box {
+  background: rgba(9, 14, 23, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 2px solid var(--theme-color, #ff4655);
+  padding: 0.55rem 0.7rem;
+  border-radius: 4px;
+  margin-top: 0.15rem;
+}
+
+.v-overview-label {
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.v-overview-text {
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: #cbd5e1;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tech Tags */
+.v-tech-badges {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+}
+
+.v-tech-tag {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* Actions Footer */
+.v-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.35rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.v-action-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.v-action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
+.v-social-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.v-social-icon {
+  color: #94a3b8;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.v-social-icon:hover {
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   CLEAN MODALS
+   ========================================================================== */
+.valorant-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 10, 18, 0.8);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.valorant-modal {
+  background: #0d131f;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+}
+
+.valorant-modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.valorant-modal-close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Edit Form */
+.roster-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.roster-card-editor {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.roster-card-editor-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.roster-input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .roster-input-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.roster-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.roster-input-group label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.roster-input-group input,
+.roster-input-group textarea {
+  background: #090e17;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+  padding: 7px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.roster-input-group input:focus,
+.roster-input-group textarea:focus {
+  border-color: #38bdf8;
+  outline: none;
+}
