@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { WebRTCManager } from "../../services/webrtc";
 import { STORAGE_KEYS, parse, save, defaultLiveMatchState } from "../../services/storage";
+import { InfoTip } from "../common/InfoDialog";
 
 export const WebRTCTelemetryWidget = ({ onOpenTestModal }) => {
   const [matchState, setMatchState] = useState(defaultLiveMatchState);
@@ -57,13 +58,19 @@ export const WebRTCTelemetryWidget = ({ onOpenTestModal }) => {
     <article className="panel" style={{ position: "relative", overflow: "hidden" }}>
       {/* Top Banner with WebRTC status badge */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.8rem", flexWrap: "wrap", gap: "0.5rem" }}>
-        <div>
-          <h3 style={{ margin: 0, display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <span>⚡ WebRTC Live Game Telemetry</span>
-          </h3>
-          <p className="muted" style={{ margin: "2px 0 0", fontSize: "0.82rem" }}>
-            Real-time peer-to-peer match feed transmitted via RTCDataChannel
-          </p>
+        <div className="heading-with-info">
+          <h3 style={{ margin: 0 }}>⚡ Live Game Telemetry</h3>
+          <InfoTip title="WebRTC Live Game Telemetry" badge="P2P RTCDataChannel">
+            <p>
+              Real-time peer-to-peer match feed transmitted directly via WebRTC{" "}
+              <code>RTCDataChannel</code> without polling.
+            </p>
+            <div className="info-dialog-meta">
+              <div><strong>Channel State:</strong> {webrtcStatus.channelState}</div>
+              <div><strong>Status:</strong> {webrtcStatus.isConnected ? "Connected" : "Listening (P2P)"}</div>
+              <div><strong>Last Source:</strong> {matchState.transmittedVia || "Local Sync"}</div>
+            </div>
+          </InfoTip>
         </div>
 
         <div className="badge-row">

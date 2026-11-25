@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { InfoTip } from "../../components/common/InfoDialog";
 
 export const SignupPage = () => {
   const { signup } = useAuth();
@@ -38,9 +39,17 @@ export const SignupPage = () => {
   return (
     <main className="container auth-container">
       <header className="page-header">
-        <div>
-          <h1>Signup</h1>
-          <p className="muted">Create your account and choose your role.</p>
+        <div className="heading-with-info">
+          <h1 style={{ margin: 0 }}>Signup</h1>
+          <InfoTip title="Choosing Your Portal Role" badge="Registration" size="md">
+            <p>Create an account and pick the role that matches how you use the portal:</p>
+            <div className="info-dialog-meta">
+              <div><strong>Player:</strong> Join tournaments &amp; manage teams</div>
+              <div><strong>Organizer:</strong> Submit event requests &amp; broadcast telemetry</div>
+              <div><strong>Admin:</strong> Review queue requests &amp; publish standings</div>
+              <div><strong>Spectator:</strong> Watch live matches &amp; cheer teams</div>
+            </div>
+          </InfoTip>
         </div>
         <nav className="page-links">
           <Link to="/">Home</Link>

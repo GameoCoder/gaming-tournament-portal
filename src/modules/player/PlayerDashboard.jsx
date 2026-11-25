@@ -12,6 +12,7 @@ import {
 } from "../../services/storage";
 import { WebRTCTelemetryWidget } from "../../components/webrtc/WebRTCTelemetryWidget";
 import { LiveStreamEmbed } from "../../components/stream/LiveStreamEmbed";
+import { InfoTip } from "../../components/common/InfoDialog";
 
 export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
   const { user, logout } = useAuth();
@@ -134,12 +135,17 @@ export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
               Live Telemetry Receiver
             </span>
           </div>
-          <h1 id="welcome-text" style={{ margin: "0.5rem 0 0" }}>
-            Welcome, {user?.username || "Player"}
-          </h1>
-          <p id="role-text" className="muted" style={{ margin: "2px 0 0" }}>
-            Role: {user?.role || "player"} • Compete in tournaments, form squads, and track live scores
-          </p>
+          <div className="heading-with-info" style={{ marginTop: "0.5rem" }}>
+            <h1 id="welcome-text" style={{ margin: 0 }}>
+              Welcome, {user?.username || "Player"}
+            </h1>
+            <InfoTip title="Player Dashboard" badge={`Role: ${user?.role || "player"}`} size="md">
+              <p>
+                Browse upcoming tournaments, register your spot, build squads with teammates,
+                and track live WebRTC match telemetry and standings.
+              </p>
+            </InfoTip>
+          </div>
         </div>
 
         <nav className="page-links">
@@ -171,11 +177,14 @@ export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
         {/* Tournaments Catalog */}
         <article className="panel panel-span-2">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.8rem", flexWrap: "wrap", gap: "0.5rem" }}>
-            <div>
+            <div className="heading-with-info">
               <h3 style={{ margin: 0 }}>🎮 Available Tournaments</h3>
-              <p className="muted" style={{ margin: 0, fontSize: "0.82rem" }}>
-                Browse events and register with your squad
-              </p>
+              <InfoTip title="Available Tournaments" badge="Registration">
+                <p>
+                  Filter by Online or In-Person LAN events. Click the info icon on any
+                  tournament card to view full rules and event details before registering.
+                </p>
+              </InfoTip>
             </div>
             <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
               <button
@@ -221,13 +230,25 @@ export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
                   }}
                 >
                   <div>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                      <strong style={{ fontSize: "1.05rem" }}>{tournament.name}</strong>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "0.5rem" }}>
+                      <div className="heading-with-info">
+                        <strong style={{ fontSize: "1.05rem" }}>{tournament.name}</strong>
+                        <InfoTip title={tournament.name} badge={tournament.mode}>
+                          <p>{tournament.description || "Competitive gaming tournament."}</p>
+                          <div className="info-dialog-meta">
+                            <div><strong>Game:</strong> {tournament.game}</div>
+                            <div><strong>Schedule:</strong> {tournament.date}</div>
+                            <div><strong>Prize Pool:</strong> {tournament.prize || "$300"}</div>
+                            <div><strong>Status:</strong> {isRegistered ? "Registered" : "Open"}</div>
+                          </div>
+                        </InfoTip>
+                      </div>
                       <span
                         style={{
                           fontSize: "0.75rem",
                           padding: "2px 6px",
                           borderRadius: "4px",
+                          flexShrink: 0,
                           background: tournament.mode === "Online" ? "rgba(56, 189, 248, 0.2)" : "rgba(74, 222, 128, 0.2)",
                           color: tournament.mode === "Online" ? "#38bdf8" : "#4ade80"
                         }}
@@ -238,11 +259,8 @@ export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
                     <p className="muted" style={{ fontSize: "0.85rem", margin: "4px 0" }}>
                       {tournament.date} • {tournament.game}
                     </p>
-                    <p style={{ fontSize: "0.82rem", margin: "4px 0", color: "#fa9a00" }}>
+                    <p style={{ fontSize: "0.82rem", margin: "4px 0 10px", color: "#fa9a00" }}>
                       Prize Pool: {tournament.prize || "$300"}
-                    </p>
-                    <p style={{ fontSize: "0.85rem", color: "#94a3b8", margin: "6px 0 10px" }}>
-                      {tournament.description}
                     </p>
                   </div>
 
@@ -335,10 +353,12 @@ export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
 
         {/* Spectator Reactions */}
         <article className="panel">
-          <h3>🎉 Live Reactions</h3>
-          <p className="muted" style={{ fontSize: "0.85rem", marginTop: 0 }}>
-            Cheer for teams competing on the main stage
-          </p>
+          <div className="heading-with-info" style={{ marginBottom: "0.75rem" }}>
+            <h3 style={{ margin: 0 }}>🎉 Live Reactions</h3>
+            <InfoTip title="Live Reactions" badge="Stage Cheers">
+              <p>Cheer for teams competing on the main stage in real time.</p>
+            </InfoTip>
+          </div>
           <div className="reaction-box">
             {reactionOptions.map((emoji) => (
               <button

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ValorantCard } from "./ValorantCard";
+import { InfoTip } from "../../components/common/InfoDialog";
 import "./ValorantTeam.css";
 
 const STORAGE_KEY = "gtp_team_roster";
@@ -113,11 +114,15 @@ export const AboutPage = () => {
     <main className="valorant-showcase-container">
       {/* Clean Header */}
       <header className="valorant-header">
-        <div>
-          <h1 className="valorant-title">Core Development Team</h1>
-          <p className="valorant-subtitle">
-            Meet the 3 engineers behind the Gaming Tournament Portal.
-          </p>
+        <div className="heading-with-info">
+          <h1 className="valorant-title" style={{ margin: 0 }}>Core Development Team</h1>
+          <InfoTip title="About the Engineering Roster" badge="Team Showcase" size="md">
+            <p>
+              Meet the 3 engineers behind the Gaming Tournament Portal. Click{" "}
+              <strong>Details</strong> on any card to inspect full member notes, or use{" "}
+              <strong>Edit Team Info</strong> to customize roster bios locally.
+            </p>
+          </InfoTip>
         </div>
 
         <div>

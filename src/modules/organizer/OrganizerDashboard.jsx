@@ -11,6 +11,7 @@ import {
   defaultLiveMatchState
 } from "../../services/storage";
 import { WebRTCManager } from "../../services/webrtc";
+import { InfoTip } from "../../components/common/InfoDialog";
 
 export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
   const { user, logout } = useAuth();
@@ -195,12 +196,17 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
               WebRTC P2P Broadcaster
             </span>
           </div>
-          <h1 id="welcome-text" style={{ margin: "0.5rem 0 0" }}>
-            Welcome, {user?.username || "Organizer"}
-          </h1>
-          <p id="role-text" className="muted" style={{ margin: "2px 0 0" }}>
-            Role: {user?.role || "organizer"} • Request Tournaments, Track Approvals & Broadcast Matches
-          </p>
+          <div className="heading-with-info" style={{ marginTop: "0.5rem" }}>
+            <h1 id="welcome-text" style={{ margin: 0 }}>
+              Welcome, {user?.username || "Organizer"}
+            </h1>
+            <InfoTip title="Organizer Control Panel" badge={`Role: ${user?.role || "organizer"}`} size="md">
+              <p>
+                Submit new tournament requests to the Admin approval queue, track request
+                statuses, push live WebRTC match telemetry, and post announcements.
+              </p>
+            </InfoTip>
+          </div>
         </div>
 
         <nav className="page-links">
@@ -230,11 +236,14 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
       <section className="grid portal-grid">
         {/* Request Tournament Registration */}
         <article className="panel" style={{ gridColumn: "1 / -1" }}>
-          <div style={{ marginBottom: "1rem" }}>
+          <div className="heading-with-info" style={{ marginBottom: "1rem" }}>
             <h3 style={{ margin: 0 }}>Request Tournament Registration</h3>
-            <p className="muted" style={{ margin: "4px 0 0", fontSize: "0.85rem" }}>
-              Send a tournament request to the Admin approval queue.
-            </p>
+            <InfoTip title="Tournament Request Queue" badge="Organizer Submission">
+              <p>
+                Submit your tournament details here to send them to the Admin approval queue.
+                Once accepted, the event becomes visible to players for registration.
+              </p>
+            </InfoTip>
           </div>
 
           <form onSubmit={handleSendRequest} className="stack">
@@ -332,12 +341,18 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
         {/* Submitted Requests Status */}
         <article className="panel" style={{ gridColumn: "1 / -1" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.8rem", flexWrap: "wrap", gap: "0.5rem" }}>
-            <div>
+            <div className="heading-with-info">
               <h3 style={{ margin: 0 }}>My Tournament Requests</h3>
-              <p className="muted" style={{ margin: 0, fontSize: "0.85rem" }}>
-                Track status of tournaments sent to the Admin queue ({pendingQueue.length} pending overall)
-              </p>
+              <InfoTip title="Submitted Requests" badge={`${pendingQueue.length} Pending Overall`}>
+                <p>
+                  Track whether your submitted tournaments are Pending in the Admin queue,
+                  Accepted, or Rejected. Click the info icon on any request card to inspect its full description.
+                </p>
+              </InfoTip>
             </div>
+            <span className="muted" style={{ fontSize: "0.82rem" }}>
+              {pendingQueue.length} pending overall
+            </span>
           </div>
 
           {myRequests.length === 0 ? (
@@ -370,10 +385,21 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
                   >
                     <div>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "0.5rem" }}>
-                        <strong style={{ fontSize: "1.05rem", color: "#f8fafc" }}>
-                          {req.name}
-                        </strong>
-                        <span style={{ fontSize: "0.8rem", fontWeight: 700, color: statusColor }}>
+                        <div className="heading-with-info">
+                          <strong style={{ fontSize: "1.05rem", color: "#f8fafc" }}>
+                            {req.name}
+                          </strong>
+                          <InfoTip title={req.name} badge={req.status}>
+                            <p>{req.description || "Competitive gaming tournament."}</p>
+                            <div className="info-dialog-meta">
+                              <div><strong>Game:</strong> {req.game}</div>
+                              <div><strong>Date:</strong> {req.date}</div>
+                              <div><strong>Mode:</strong> {req.mode}</div>
+                              <div><strong>Prize:</strong> {req.prize || "Trophy"}</div>
+                            </div>
+                          </InfoTip>
+                        </div>
+                        <span style={{ fontSize: "0.8rem", fontWeight: 700, color: statusColor, flexShrink: 0 }}>
                           {req.status === "Pending" && queueIdx !== -1
                             ? `Pending (#${queueIdx + 1})`
                             : req.status}
@@ -382,11 +408,8 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
                       <p className="muted" style={{ fontSize: "0.85rem", margin: "4px 0" }}>
                         {req.game} • {req.date} • {req.mode}
                       </p>
-                      <p style={{ fontSize: "0.88rem", margin: "4px 0", color: "#fa9a00" }}>
+                      <p style={{ fontSize: "0.88rem", margin: "4px 0 0", color: "#fa9a00" }}>
                         Prize: {req.prize || "Trophy"}
-                      </p>
-                      <p style={{ fontSize: "0.83rem", margin: "4px 0 0", color: "#cbd5e1" }}>
-                        {req.description}
                       </p>
                     </div>
 
@@ -448,16 +471,21 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
 
         {/* WebRTC Match Broadcaster */}
         <article className="panel" style={{ border: "1px solid rgba(74, 222, 128, 0.5)" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
-            <h3 style={{ margin: 0, color: "var(--accent)" }}>WebRTC Match Broadcaster</h3>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem", marginBottom: "0.9rem" }}>
+            <div className="heading-with-info">
+              <h3 style={{ margin: 0, color: "var(--accent)" }}>WebRTC Match Broadcaster</h3>
+              <InfoTip title="WebRTC Match Broadcaster" badge="Live P2P Sync">
+                <p>
+                  Push live team names, scores, round numbers, and kill-feed events directly
+                  via WebRTC <code>RTCDataChannel</code> to connected Spectator and Player views.
+                </p>
+              </InfoTip>
+            </div>
             <span className="webrtc-badge">
               <span className="pulse-dot"></span>
               Packets: {webrtcStatus.packetsSent}
             </span>
           </div>
-          <p className="muted" style={{ fontSize: "0.82rem", margin: "4px 0 1rem" }}>
-            Push live match changes directly via WebRTC DataChannel
-          </p>
 
           <form onSubmit={handleBroadcastTelemetry} className="stack">
             <div className="form-grid-2">

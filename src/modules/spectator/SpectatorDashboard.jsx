@@ -11,6 +11,7 @@ import {
 } from "../../services/storage";
 import { LiveStreamEmbed } from "../../components/stream/LiveStreamEmbed";
 import { WebRTCTelemetryWidget } from "../../components/webrtc/WebRTCTelemetryWidget";
+import { InfoTip } from "../../components/common/InfoDialog";
 
 export const SpectatorDashboard = ({ onOpenWebRTCModal }) => {
   const { user, logout } = useAuth();
@@ -109,12 +110,17 @@ export const SpectatorDashboard = ({ onOpenWebRTCModal }) => {
               Live Telemetry Stream
             </span>
           </div>
-          <h1 id="welcome-text" style={{ margin: "0.5rem 0 0" }}>
-            {user ? `Welcome, ${user.username}` : "Spectator Arena"}
-          </h1>
-          <p id="role-text" className="muted" style={{ margin: "2px 0 0" }}>
-            Watch official esports live streams, track real-time WebRTC match scores, and react live
-          </p>
+          <div className="heading-with-info" style={{ marginTop: "0.5rem" }}>
+            <h1 id="welcome-text" style={{ margin: 0 }}>
+              {user ? `Welcome, ${user.username}` : "Spectator Arena"}
+            </h1>
+            <InfoTip title="Spectator & Broadcast Arena" badge="Spectator Module" size="md">
+              <p>
+                Watch official esports live streams, track real-time WebRTC match scores,
+                follow the tournament leaderboard, and send live emoji cheers to competing teams.
+              </p>
+            </InfoTip>
+          </div>
         </div>
 
         <nav className="page-links">
@@ -152,10 +158,15 @@ export const SpectatorDashboard = ({ onOpenWebRTCModal }) => {
 
         {/* Live Reaction Box */}
         <article className="panel">
-          <h3>🎉 React Live</h3>
-          <p className="muted" style={{ fontSize: "0.85rem", marginTop: 0 }}>
-            Send live cheers and reactions to teams currently competing!
-          </p>
+          <div className="heading-with-info" style={{ marginBottom: "0.75rem" }}>
+            <h3 style={{ margin: 0 }}>🎉 React Live</h3>
+            <InfoTip title="Live Audience Reactions" badge="Interactive Feed">
+              <p>
+                Tap any reaction button to send live cheers that float across the broadcast
+                screen and sync across tabs.
+              </p>
+            </InfoTip>
+          </div>
           <div className="reaction-box">
             {reactionOptions.map((emoji) => (
               <button

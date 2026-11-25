@@ -28,19 +28,6 @@
   ],
   "tournamentRequests": [
     {
-      "id": "rocket-league-nitro-101",
-      "name": "Rocket League Nitro Cup",
-      "game": "Rocket League",
-      "date": "2026-10-18 18:30",
-      "mode": "Online",
-      "prize": "$750 Cash Pool",
-      "description": "3v3 Soccar double-elimination bracket with standard competitive settings.",
-      "requestedBy": "OrganizerPro",
-      "requestedByEmail": "organizer@gtp.com",
-      "requestedAt": "2026-10-01T10:00:00.000Z",
-      "status": "Pending"
-    },
-    {
       "id": "dota2-autumn-clash-102",
       "name": "Dota 2 Autumn Clash",
       "game": "Dota 2",
@@ -51,10 +38,36 @@
       "requestedBy": "OrganizerPro",
       "requestedByEmail": "organizer@gtp.com",
       "requestedAt": "2026-10-01T11:15:00.000Z",
-      "status": "Pending"
+      "status": "Accepted",
+      "reviewedBy": "AdminGT",
+      "reviewedAt": "2026-11-25T17:40:18.908Z"
+    },
+    {
+      "id": "rocket-league-nitro-101",
+      "name": "Rocket League Nitro Cup",
+      "game": "Rocket League",
+      "date": "2026-10-18 18:30",
+      "mode": "Online",
+      "prize": "$750 Cash Pool",
+      "description": "3v3 Soccar double-elimination bracket with standard competitive settings.",
+      "requestedBy": "OrganizerPro",
+      "requestedByEmail": "organizer@gtp.com",
+      "requestedAt": "2026-10-01T10:00:00.000Z",
+      "status": "Pending",
+      "updatedAt": "2026-11-25T17:40:13.637Z"
     }
   ],
   "tournaments": [
+    {
+      "id": "dota2-autumn-clash-102",
+      "name": "Dota 2 Autumn Clash",
+      "game": "Dota 2",
+      "date": "2026-10-22 19:00",
+      "mode": "Hybrid",
+      "prize": "$1,500 + Aegis Replica",
+      "status": "Upcoming",
+      "description": "5v5 Captains Mode tournament. Group stage online, finals on main stage."
+    },
     {
       "id": "valorant-cup",
       "name": "Valorant Weekend Cup",
@@ -129,6 +142,7 @@
     }
   ],
   "announcements": [
+    "hi",
     "Valorant Weekend Cup Grand Finals are LIVE now! Watch stream in Spectator Portal.",
     "Prize pool for BGMI Showdown increased to $1,000 courtesy of sponsors.",
     "WebRTC live telemetry enabled: transmit match scores directly peer-to-peer.",
@@ -144,7 +158,7 @@
   },
   "streamConfig": {
     "activeId": "jfKfPfyJRdk",
-    "title": "Official GTP Esports Main Stage",
+    "title": "VCT Highlights & Live",
     "presets": [
       {
         "name": "VCT Highlights & Live",
@@ -195,6 +209,7 @@
   ],
   "prizes": {
     "valorant-cup": "1st: $350 + Trophy, 2nd: $150",
-    "fifa-clash": "Winner: $300 + Gold Medal"
+    "fifa-clash": "Winner: $300 + Gold Medal",
+    "dota2-autumn-clash-102": "$1,500 + Aegis Replica"
   }
 }

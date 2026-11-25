@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { STORAGE_KEYS, parse, save, defaultStreamConfig } from "../../services/storage";
+import { InfoTip } from "../common/InfoDialog";
 
 export const LiveStreamEmbed = ({ canEdit = false }) => {
   const [streamConfig, setStreamConfig] = useState(defaultStreamConfig);
@@ -77,7 +78,7 @@ export const LiveStreamEmbed = ({ canEdit = false }) => {
   return (
     <article className="panel" style={{ padding: "1.2rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.8rem", flexWrap: "wrap", gap: "0.5rem" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+        <div className="heading-with-info">
           <h3 style={{ margin: 0 }}>📺 Live Tournament Stream</h3>
           <span
             style={{
@@ -96,6 +97,17 @@ export const LiveStreamEmbed = ({ canEdit = false }) => {
             <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#ef4444" }}></span>
             LIVE
           </span>
+          <InfoTip title="Live Stream Broadcast" badge="YouTube Embed">
+            <p>
+              <strong>Active Broadcast:</strong> {streamConfig.title || "Main Tournament Broadcast"}
+            </p>
+            <p>
+              Switch between preset tournament channels below the player.{" "}
+              {canEdit
+                ? "As an Organizer/Admin, you can paste any YouTube URL (watch, live, share, or 11-char ID) to update the stream for everyone."
+                : "Organizers and Admins can update the active stream feed in real time."}
+            </p>
+          </InfoTip>
         </div>
         <span className="muted" style={{ fontSize: "0.85rem" }}>
           {streamConfig.title || "Main Tournament Broadcast"}
