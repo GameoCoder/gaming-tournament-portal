@@ -5,6 +5,20 @@ import path from "node:path";
 
 const DB_DIR = path.resolve(process.cwd(), "data");
 const DB_FILE = path.join(DB_DIR, "db.json");
+const isVercel = Boolean(process.env.VERCEL);
+
+function excludeVideosOnVercelPlugin() {
+  return {
+    name: "exclude-videos-on-vercel",
+    closeBundle() {
+      if (!isVercel) return;
+      const distVideosDir = path.resolve(process.cwd(), "dist/assets/videos");
+      if (fs.existsSync(distVideosDir)) {
+        fs.rmSync(distVideosDir, { recursive: true, force: true });
+      }
+    },
+  };
+}
 
 // Lightweight local database API middleware — saves directly to ./data/db.json
 function localDatabasePlugin() {
@@ -83,7 +97,10 @@ function localDatabasePlugin() {
 }
 
 export default defineConfig({
-  plugins: [react(), localDatabasePlugin()],
+  plugins: [react(), localDatabasePlugin(), excludeVideosOnVercelPlugin()],
+  define: {
+    __IS_VERCEL__: JSON.stringify(isVercel),
+  },
   server: {
     port: 5173,
     open: false,

@@ -21,7 +21,6 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
     const userRole = user.role?.toLowerCase();
     const hasRole = allowedRoles.some((r) => r.toLowerCase() === userRole);
     if (!hasRole) {
-      // Redirect to their default portal
       const target =
         userRole === "organizer" || userRole === "admin"
           ? "/admin"
