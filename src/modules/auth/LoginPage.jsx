@@ -13,7 +13,8 @@ export const LoginPage = () => {
   const [submitting, setSubmitting] = useState(false);
 
   const redirectByRole = (role) => {
-    if (role === "organizer" || role === "admin") navigate("/admin");
+    if (role === "admin") navigate("/admin");
+    else if (role === "organizer") navigate("/organizer");
     else if (role === "player") navigate("/player");
     else navigate("/spectator");
   };
@@ -117,6 +118,14 @@ export const LoginPage = () => {
               title="admin / admin123"
             >
               Admin
+            </button>
+            <button
+              type="button"
+              className="demo-btn"
+              onClick={() => handleQuickDemo("organizer")}
+              title="organizer / organizer123"
+            >
+              Organizer
             </button>
             <button
               type="button"

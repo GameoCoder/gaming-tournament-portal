@@ -18,11 +18,20 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     ensureDefaults();
-    const active = getCurrentUser();
-    if (active) {
-      setUser(active);
-    }
+    const syncSession = () => {
+      const active = getCurrentUser();
+      if (active && active.email?.toLowerCase() === "admin@gtp.com" && active.role !== "admin") {
+        active.role = "admin";
+        setCurrentUser(active);
+      }
+      setUser(active || null);
+    };
+
+    syncSession();
     setLoading(false);
+
+    window.addEventListener("gtp-db-synced", syncSession);
+    return () => window.removeEventListener("gtp-db-synced", syncSession);
   }, []);
 
   const login = async (identifier, password) => {
@@ -31,13 +40,14 @@ export const AuthProvider = ({ children }) => {
       const passwordHash = await hashPassword(password);
       const users = parse(STORAGE_KEYS.users, []);
 
-      // Support login by email OR username (including role aliases: player, spectator, admin)
+      // Support login by email OR username (including role aliases: player, spectator, organizer, admin)
       const found = users.find(
         (u) =>
           (u.email.toLowerCase() === trimmed ||
             u.username.toLowerCase() === trimmed ||
             (trimmed === "player" && u.email === "player@gtp.com") ||
             (trimmed === "spectator" && u.email === "spectator@gtp.com") ||
+            (trimmed === "organizer" && u.email === "organizer@gtp.com") ||
             (trimmed === "admin" && u.email === "admin@gtp.com")) &&
           u.passwordHash === passwordHash
       );
@@ -106,7 +116,7 @@ export const AuthProvider = ({ children }) => {
   const quickLogin = async (roleName) => {
     const roleMap = {
       admin: { email: "admin@gtp.com", pass: "admin123" },
-      organizer: { email: "admin@gtp.com", pass: "admin123" },
+      organizer: { email: "organizer@gtp.com", pass: "organizer123" },
       player: { email: "player@gtp.com", pass: "player123" },
       spectator: { email: "spectator@gtp.com", pass: "spectator123" }
     };

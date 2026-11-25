@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "node:path";
+import { resetDatabase } from "./scripts/reset-db.js";
 
 const DB_DIR = path.resolve(process.cwd(), "data");
 const DB_FILE = path.join(DB_DIR, "db.json");
@@ -25,6 +26,11 @@ function localDatabasePlugin() {
   return {
     name: "local-file-db-middleware",
     configureServer(server) {
+      if (process.env.RESET_DB === "1" || process.argv.includes("--reset-db")) {
+        resetDatabase();
+        console.log("[LocalDB] Database reset to default state on dev startup.");
+      }
+
       server.middlewares.use((req, res, next) => {
         if (!req.url.startsWith("/api/db")) {
           return next();

@@ -22,8 +22,10 @@ export const ProtectedRoute = ({ children, allowedRoles }) => {
     const hasRole = allowedRoles.some((r) => r.toLowerCase() === userRole);
     if (!hasRole) {
       const target =
-        userRole === "organizer" || userRole === "admin"
+        userRole === "admin"
           ? "/admin"
+          : userRole === "organizer"
+          ? "/organizer"
           : userRole === "player"
           ? "/player"
           : "/spectator";

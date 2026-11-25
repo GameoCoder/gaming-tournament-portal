@@ -95,7 +95,8 @@ export const SignupPage = () => {
               onChange={(e) => setRole(e.target.value)}
             >
               <option value="player">Player (Compete & Join Teams)</option>
-              <option value="organizer">Organizer / Admin (Host & Manage)</option>
+              <option value="organizer">Organizer (Request & Host Tournaments)</option>
+              <option value="admin">Admin (Approve Queue & Manage Portal)</option>
               <option value="spectator">Spectator (Watch & React)</option>
             </select>
           </label>

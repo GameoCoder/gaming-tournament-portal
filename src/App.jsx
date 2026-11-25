@@ -12,6 +12,7 @@ import { HomePage } from "./modules/home/HomePage";
 import { LoginPage } from "./modules/auth/LoginPage";
 import { SignupPage } from "./modules/auth/SignupPage";
 import { AdminDashboard } from "./modules/admin/AdminDashboard";
+import { OrganizerDashboard } from "./modules/organizer/OrganizerDashboard";
 import { PlayerDashboard } from "./modules/player/PlayerDashboard";
 import { SpectatorDashboard } from "./modules/spectator/SpectatorDashboard";
 import { AboutPage } from "./modules/about/AboutPage";
@@ -28,44 +29,56 @@ export const App = () => {
         <BackgroundVideo />
         <Navbar onOpenWebRTCModal={openWebRTCModal} />
 
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route
-            path="/about"
-            element={<AboutPage onOpenWebRTCModal={openWebRTCModal} />}
-          />
+        <div className="app-content">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route
+              path="/about"
+              element={<AboutPage onOpenWebRTCModal={openWebRTCModal} />}
+            />
 
-          {/* Module: Admin / Organizer */}
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute allowedRoles={["organizer", "admin"]}>
-                <AdminDashboard onOpenWebRTCModal={openWebRTCModal} />
-              </ProtectedRoute>
-            }
-          />
+            {/* Module: Admin */}
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminDashboard onOpenWebRTCModal={openWebRTCModal} />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Module: User / Player */}
-          <Route
-            path="/player"
-            element={
-              <ProtectedRoute allowedRoles={["player", "organizer", "admin"]}>
-                <PlayerDashboard onOpenWebRTCModal={openWebRTCModal} />
-              </ProtectedRoute>
-            }
-          />
+            {/* Module: Organizer */}
+            <Route
+              path="/organizer"
+              element={
+                <ProtectedRoute allowedRoles={["organizer", "admin"]}>
+                  <OrganizerDashboard onOpenWebRTCModal={openWebRTCModal} />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Module: Spectator / Public */}
-          <Route
-            path="/spectator"
-            element={<SpectatorDashboard onOpenWebRTCModal={openWebRTCModal} />}
-          />
+            {/* Module: User / Player */}
+            <Route
+              path="/player"
+              element={
+                <ProtectedRoute allowedRoles={["player", "organizer", "admin"]}>
+                  <PlayerDashboard onOpenWebRTCModal={openWebRTCModal} />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            {/* Module: Spectator / Public */}
+            <Route
+              path="/spectator"
+              element={<SpectatorDashboard onOpenWebRTCModal={openWebRTCModal} />}
+            />
+
+            {/* Fallback */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
 
         <Footer />
 

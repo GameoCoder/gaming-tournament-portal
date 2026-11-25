@@ -145,7 +145,8 @@ export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
         <nav className="page-links">
           <Link to="/">Home</Link>
           <Link to="/spectator">Spectator View</Link>
-          <Link to="/admin">Organizer View</Link>
+          <Link to="/organizer">Organizer View</Link>
+          <Link to="/admin">Admin View</Link>
           <button
             type="button"
             className="btn-secondary"

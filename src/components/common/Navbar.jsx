@@ -51,6 +51,12 @@ export const Navbar = ({ onOpenWebRTCModal }) => {
               Player
             </NavLink>
             <NavLink
+              to="/organizer"
+              className={({ isActive }) => (isActive ? "router-active" : "")}
+            >
+              Organizer
+            </NavLink>
+            <NavLink
               to="/admin"
               className={({ isActive }) => (isActive ? "router-active" : "")}
             >

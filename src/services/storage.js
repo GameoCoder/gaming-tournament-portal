@@ -4,6 +4,7 @@ export const STORAGE_KEYS = {
   users: "gtp_users",
   session: "gtp_session",
   tournaments: "gtp_tournaments",
+  tournamentRequests: "gtp_tournament_requests",
   registrations: "gtp_registrations",
   teams: "gtp_teams",
   leaderboard: "gtp_leaderboard",
@@ -57,6 +58,35 @@ export const defaultTournaments = [
   }
 ];
 
+export const defaultTournamentRequests = [
+  {
+    id: "rocket-league-nitro-101",
+    name: "Rocket League Nitro Cup",
+    game: "Rocket League",
+    date: "2026-10-18 18:30",
+    mode: "Online",
+    prize: "$750 Cash Pool",
+    description: "3v3 Soccar double-elimination bracket with standard competitive settings.",
+    requestedBy: "OrganizerPro",
+    requestedByEmail: "organizer@gtp.com",
+    requestedAt: "2026-10-01T10:00:00.000Z",
+    status: "Pending"
+  },
+  {
+    id: "dota2-autumn-clash-102",
+    name: "Dota 2 Autumn Clash",
+    game: "Dota 2",
+    date: "2026-10-22 19:00",
+    mode: "Hybrid",
+    prize: "$1,500 + Aegis Replica",
+    description: "5v5 Captains Mode tournament. Group stage online, finals on main stage.",
+    requestedBy: "OrganizerPro",
+    requestedByEmail: "organizer@gtp.com",
+    requestedAt: "2026-10-01T11:15:00.000Z",
+    status: "Pending"
+  }
+];
+
 export const defaultLeaderboard = [
   { name: "Team Phoenix", points: 45, wins: 4, matches: 5 },
   { name: "Night Raiders", points: 35, wins: 3, matches: 4 },
@@ -101,6 +131,7 @@ export const defaultLiveMatchState = {
 
 // Default seed users:
 // Admin: admin / admin@gtp.com / admin123
+// Organizer: organizer / organizer@gtp.com / organizer123
 // Player: player / candy1912 / player@gtp.com / player123
 // Spectator: spectator / SpectatorOne / spectator@gtp.com / spectator123
 export const defaultUsers = [
@@ -109,6 +140,13 @@ export const defaultUsers = [
     email: "admin@gtp.com",
     // SHA-256 for "admin123"
     passwordHash: "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+    role: "admin"
+  },
+  {
+    username: "OrganizerPro",
+    email: "organizer@gtp.com",
+    // SHA-256 for "organizer123"
+    passwordHash: "9ed814e67a9da028eea6f1984a8bdecf9b50c7aec557df25331d66834656eb77",
     role: "organizer"
   },
   {
@@ -130,6 +168,7 @@ export const defaultUsers = [
 const keyToCollection = {
   gtp_users: "users",
   gtp_tournaments: "tournaments",
+  gtp_tournament_requests: "tournamentRequests",
   gtp_leaderboard: "leaderboard",
   gtp_announcements: "announcements",
   gtp_reactions: "reactions",
@@ -176,11 +215,21 @@ export async function syncFromBackendDb() {
     if (!res.ok) return;
     const db = await res.json();
     if (db && typeof db === "object") {
+      if (db._resetVersion) {
+        const prevResetVersion = localStorage.getItem("gtp_reset_version");
+        if (String(db._resetVersion) !== prevResetVersion) {
+          Object.keys(localStorage)
+            .filter((k) => k.startsWith("gtp_"))
+            .forEach((k) => localStorage.removeItem(k));
+          localStorage.setItem("gtp_reset_version", String(db._resetVersion));
+        }
+      }
       Object.entries(keyToCollection).forEach(([storageKey, coll]) => {
         if (db[coll] !== undefined) {
           localStorage.setItem(storageKey, JSON.stringify(db[coll]));
         }
       });
+      window.dispatchEvent(new Event("gtp-db-synced"));
     }
   } catch {
     // Offline or static preview fallback
@@ -213,6 +262,9 @@ export function ensureDefaults() {
   if (!localStorage.getItem(STORAGE_KEYS.tournaments)) {
     save(STORAGE_KEYS.tournaments, defaultTournaments);
   }
+  if (!localStorage.getItem(STORAGE_KEYS.tournamentRequests)) {
+    save(STORAGE_KEYS.tournamentRequests, defaultTournamentRequests);
+  }
   if (!localStorage.getItem(STORAGE_KEYS.leaderboard)) {
     save(STORAGE_KEYS.leaderboard, defaultLeaderboard);
   }
@@ -227,7 +279,7 @@ export function ensureDefaults() {
   if (!storedUsers || !Array.isArray(storedUsers)) {
     save(STORAGE_KEYS.users, defaultUsers);
   } else {
-    // Self-heal: ensure default accounts have correct hashes
+    // Self-heal: ensure default accounts have correct hashes and roles
     let modified = false;
     defaultUsers.forEach((def) => {
       const existing = storedUsers.find(
@@ -236,9 +288,15 @@ export function ensureDefaults() {
       if (!existing) {
         storedUsers.push(def);
         modified = true;
-      } else if (existing.passwordHash !== def.passwordHash) {
-        existing.passwordHash = def.passwordHash;
-        modified = true;
+      } else {
+        if (existing.passwordHash !== def.passwordHash) {
+          existing.passwordHash = def.passwordHash;
+          modified = true;
+        }
+        if (existing.role !== def.role) {
+          existing.role = def.role;
+          modified = true;
+        }
       }
     });
     if (modified) {

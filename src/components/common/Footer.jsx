@@ -15,6 +15,7 @@ export const Footer = () => {
           <Link to="/about">About</Link>
           <Link to="/spectator">Spectator</Link>
           <Link to="/player">Player</Link>
+          <Link to="/organizer">Organizer</Link>
           <Link to="/admin">Admin</Link>
           <a
             href="https://github.com/GameoCoder/Gaming-Tournament-Portal"

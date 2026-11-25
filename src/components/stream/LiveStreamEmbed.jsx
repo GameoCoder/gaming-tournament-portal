@@ -71,7 +71,7 @@ export const LiveStreamEmbed = ({ canEdit = false }) => {
     setTimeout(() => setEditStatus(""), 3000);
   };
 
-  const currentId = streamConfig?.activeId || "jfKfPfyJRdk";
+  const currentId = streamConfig?.activeId || "VZig-3ABCjw";
   const embedUrl = `https://www.youtube-nocookie.com/embed/${currentId}?autoplay=0&rel=0&modestbranding=1`;
 
   return (

@@ -6,6 +6,7 @@ import {
   parse,
   save,
   defaultTournaments,
+  defaultTournamentRequests,
   defaultLeaderboard,
   defaultAnnouncements,
   defaultLiveMatchState
@@ -19,6 +20,9 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
 
   // State
   const [tournaments, setTournaments] = useState([]);
+  const [tournamentRequests, setTournamentRequests] = useState([]);
+  const [queueDecisions, setQueueDecisions] = useState({});
+  const [queueFeedback, setQueueFeedback] = useState("");
   const [registrations, setRegistrations] = useState({});
   const [prizes, setPrizes] = useState({});
   const [leaderboard, setLeaderboard] = useState([]);
@@ -70,12 +74,14 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
       }
     );
 
-    // Sync across tabs
+    // Sync across tabs and backend hydration
     const handleStorageChange = () => loadAllData();
     window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("gtp-db-synced", handleStorageChange);
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("gtp-db-synced", handleStorageChange);
       if (broadcasterRef.current) {
         broadcasterRef.current.destroy();
       }
@@ -89,6 +95,9 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
       setResultTournament(tourneys[0].id);
       setPrizeTournament(tourneys[0].id);
     }
+    setTournamentRequests(
+      parse(STORAGE_KEYS.tournamentRequests, defaultTournamentRequests)
+    );
     setRegistrations(parse(STORAGE_KEYS.registrations, {}));
     setPrizes(parse(STORAGE_KEYS.prizes, {}));
     setLeaderboard(parse(STORAGE_KEYS.leaderboard, defaultLeaderboard));
@@ -138,6 +147,85 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
     const filtered = tournaments.filter((t) => t.id !== id);
     setTournaments(filtered);
     save(STORAGE_KEYS.tournaments, filtered);
+  };
+
+  // Process Admin Tournament Registration Queue Decision
+  const handleQueueDecisionSubmit = (e, req) => {
+    e.preventDefault();
+    const decision = queueDecisions[req.id] || "Pending";
+    const currentRequests = parse(
+      STORAGE_KEYS.tournamentRequests,
+      defaultTournamentRequests
+    );
+
+    if (decision === "Pending") {
+      // Put this tournament at the end of the queue list
+      const target = currentRequests.find((r) => r.id === req.id) || req;
+      const others = currentRequests.filter((r) => r.id !== req.id);
+      const reordered = [
+        ...others,
+        { ...target, status: "Pending", updatedAt: new Date().toISOString() }
+      ];
+      save(STORAGE_KEYS.tournamentRequests, reordered);
+      setTournamentRequests(reordered);
+      setQueueDecisions((prev) => ({ ...prev, [req.id]: "Pending" }));
+      setQueueFeedback(
+        `"${req.name}" kept Pending and moved to the end of the queue.`
+      );
+      setTimeout(() => setQueueFeedback(""), 4000);
+      return;
+    }
+
+    if (decision === "Accepted") {
+      const currentTourneys = parse(STORAGE_KEYS.tournaments, defaultTournaments);
+      const alreadyExists = currentTourneys.some((t) => t.id === req.id);
+      if (!alreadyExists) {
+        const registeredTournament = {
+          id: req.id,
+          name: req.name,
+          game: req.game || "Custom Game",
+          date: req.date,
+          mode: req.mode || "Online",
+          prize: req.prize || "Trophy",
+          status: "Upcoming",
+          description: req.description || "Competitive gaming tournament."
+        };
+        const updatedTourneys = [registeredTournament, ...currentTourneys];
+        save(STORAGE_KEYS.tournaments, updatedTourneys);
+        setTournaments(updatedTourneys);
+      }
+
+      if (req.prize) {
+        const currentPrizes = parse(STORAGE_KEYS.prizes, {});
+        currentPrizes[req.id] = req.prize;
+        save(STORAGE_KEYS.prizes, currentPrizes);
+        setPrizes(currentPrizes);
+      }
+    }
+
+    const updatedRequests = currentRequests.map((r) =>
+      r.id === req.id
+        ? {
+            ...r,
+            status: decision,
+            reviewedBy: user?.username || "Admin",
+            reviewedAt: new Date().toISOString()
+          }
+        : r
+    );
+    save(STORAGE_KEYS.tournamentRequests, updatedRequests);
+    setTournamentRequests(updatedRequests);
+    setQueueDecisions((prev) => {
+      const next = { ...prev };
+      delete next[req.id];
+      return next;
+    });
+    setQueueFeedback(
+      decision === "Accepted"
+        ? `"${req.name}" Accepted and registered into tournaments.`
+        : `"${req.name}" Rejected and removed from the registration queue.`
+    );
+    setTimeout(() => setQueueFeedback(""), 4000);
   };
 
   // 2. Save Match Result (Leaderboard Update)
@@ -230,7 +318,7 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
       <header className="page-header panel">
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-            <span className="module-badge module-badge-admin">Admin & Organizer Module</span>
+            <span className="module-badge module-badge-admin">Admin Module</span>
             <span className="webrtc-badge">
               <span className="pulse-dot"></span>
               WebRTC P2P Broadcaster
@@ -240,12 +328,13 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
             Welcome, {user?.username || "Admin"}
           </h1>
           <p id="role-text" className="muted" style={{ margin: "2px 0 0" }}>
-            Role: {user?.role || "organizer"} • Manage Tournaments, Transmit WebRTC Game Telemetry, Live Streams & Results
+            Role: {user?.role || "admin"} • Review Tournament Queue, Manage Tournaments, Transmit WebRTC Game Telemetry, Live Streams & Results
           </p>
         </div>
 
         <nav className="page-links">
           <Link to="/">Home</Link>
+          <Link to="/organizer">Organizer View</Link>
           <Link to="/player">Player View</Link>
           <Link to="/spectator">Spectator View</Link>
           <button
@@ -264,6 +353,116 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
 
       {/* Main Grid */}
       <section className="grid portal-grid">
+        {/* Admin Tournament Registration Queue */}
+        <article className="panel" style={{ gridColumn: "1 / -1" }}>
+          {(() => {
+            const pendingQueue = tournamentRequests.filter(
+              (r) => r.status === "Pending"
+            );
+            const reviewedHistory = tournamentRequests.filter(
+              (r) => r.status === "Accepted" || r.status === "Rejected"
+            );
+            return (
+              <>
+                <div style={{ marginBottom: "1rem" }}>
+                  <h3 style={{ margin: 0 }}>Tournament Registration Queue</h3>
+                  <p className="muted" style={{ margin: "4px 0 0", fontSize: "0.85rem" }}>
+                    Pending requests from organizers ({pendingQueue.length} in queue). Choosing Pending and clicking Submit moves the tournament to the end of the list.
+                  </p>
+                </div>
+
+                {queueFeedback && (
+                  <p style={{ margin: "0 0 0.8rem", color: "#86efac", fontSize: "0.88rem" }}>
+                    {queueFeedback}
+                  </p>
+                )}
+
+                {pendingQueue.length === 0 ? (
+                  <p className="muted" style={{ margin: 0 }}>
+                    No pending tournaments in the queue.
+                  </p>
+                ) : (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                    {pendingQueue.map((req, index) => {
+                      const selectedDecision = queueDecisions[req.id] || "Pending";
+                      return (
+                        <form
+                          key={req.id}
+                          onSubmit={(e) => handleQueueDecisionSubmit(e, req)}
+                          style={{
+                            background: "rgba(15, 26, 45, 0.7)",
+                            border: "1px solid #2d3e58",
+                            borderRadius: "10px",
+                            padding: "1rem",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            flexWrap: "wrap",
+                            gap: "1rem"
+                          }}
+                        >
+                          <div style={{ flex: "1 1 320px" }}>
+                            <strong style={{ fontSize: "1.05rem", color: "#f8fafc" }}>
+                              #{index + 1} — {req.name}
+                            </strong>
+                            <p className="muted" style={{ fontSize: "0.85rem", margin: "4px 0" }}>
+                              {req.game} • {req.date} • {req.mode} • Prize: {req.prize || "Trophy"} • Requested by {req.requestedBy || "Organizer"}
+                            </p>
+                            <p style={{ fontSize: "0.84rem", margin: 0, color: "#cbd5e1" }}>
+                              {req.description}
+                            </p>
+                          </div>
+
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.6rem",
+                              flexWrap: "wrap"
+                            }}
+                          >
+                            <select
+                              aria-label={`Decision for ${req.name}`}
+                              value={selectedDecision}
+                              onChange={(e) =>
+                                setQueueDecisions((prev) => ({
+                                  ...prev,
+                                  [req.id]: e.target.value
+                                }))
+                              }
+                              style={{ width: "auto", minWidth: "140px", marginTop: 0 }}
+                            >
+                              <option value="Pending">Pending</option>
+                              <option value="Accepted">Accepted</option>
+                              <option value="Rejected">Rejected</option>
+                            </select>
+                            <button type="submit">Submit</button>
+                          </div>
+                        </form>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {reviewedHistory.length > 0 && (
+                  <div style={{ marginTop: "1rem", paddingTop: "0.8rem", borderTop: "1px solid #2d3e58" }}>
+                    <p className="muted" style={{ fontSize: "0.85rem", margin: "0 0 0.4rem" }}>
+                      Reviewed Requests:
+                    </p>
+                    <ul className="content-list">
+                      {reviewedHistory.map((item) => (
+                        <li key={item.id}>
+                          {item.name} — <strong>{item.status}</strong>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </>
+            );
+          })()}
+        </article>
+
         {/* Tournament Management */}
         <article className="panel" style={{ gridColumn: "1 / -1" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem", flexWrap: "wrap", gap: "0.5rem" }}>

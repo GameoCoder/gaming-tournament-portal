@@ -20,8 +20,10 @@ export const HomePage = () => {
             <Link
               className="btn"
               to={
-                user.role === "organizer" || user.role === "admin"
+                user.role === "admin"
                   ? "/admin"
+                  : user.role === "organizer"
+                  ? "/organizer"
                   : user.role === "player"
                   ? "/player"
                   : "/spectator"
@@ -61,11 +63,11 @@ export const HomePage = () => {
 
         <div className="card-1">
           <img src="/assets/images/panel-2.webp" alt="For Organizers" />
-          <Link to="/admin">
+          <Link to="/organizer">
             <div className="card__content-1">
               <p className="card__title-1">For Organizers</p>
               <p className="card__description-1">
-                Manage registrations, publish announcements, and update leaderboards.
+                Submit tournament requests, broadcast matches, and publish announcements.
               </p>
             </div>
           </Link>

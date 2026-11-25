@@ -1,9 +1,16 @@
 {
+  "_resetVersion": 1795616979983,
   "users": [
     {
       "username": "AdminGT",
       "email": "admin@gtp.com",
       "passwordHash": "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9",
+      "role": "admin"
+    },
+    {
+      "username": "OrganizerPro",
+      "email": "organizer@gtp.com",
+      "passwordHash": "9ed814e67a9da028eea6f1984a8bdecf9b50c7aec557df25331d66834656eb77",
       "role": "organizer"
     },
     {
@@ -19,6 +26,34 @@
       "role": "spectator"
     }
   ],
+  "tournamentRequests": [
+    {
+      "id": "rocket-league-nitro-101",
+      "name": "Rocket League Nitro Cup",
+      "game": "Rocket League",
+      "date": "2026-10-18 18:30",
+      "mode": "Online",
+      "prize": "$750 Cash Pool",
+      "description": "3v3 Soccar double-elimination bracket with standard competitive settings.",
+      "requestedBy": "OrganizerPro",
+      "requestedByEmail": "organizer@gtp.com",
+      "requestedAt": "2026-10-01T10:00:00.000Z",
+      "status": "Pending"
+    },
+    {
+      "id": "dota2-autumn-clash-102",
+      "name": "Dota 2 Autumn Clash",
+      "game": "Dota 2",
+      "date": "2026-10-22 19:00",
+      "mode": "Hybrid",
+      "prize": "$1,500 + Aegis Replica",
+      "description": "5v5 Captains Mode tournament. Group stage online, finals on main stage.",
+      "requestedBy": "OrganizerPro",
+      "requestedByEmail": "organizer@gtp.com",
+      "requestedAt": "2026-10-01T11:15:00.000Z",
+      "status": "Pending"
+    }
+  ],
   "tournaments": [
     {
       "id": "valorant-cup",
@@ -29,6 +64,16 @@
       "prize": "$500 + MVP Badge",
       "status": "Live",
       "description": "5v5 Competitive tournament on Haven & Ascent. Single elimination format."
+    },
+    {
+      "id": "fifa-clash",
+      "name": "FIFA Arena Clash",
+      "game": "EA Sports FC 24 / FIFA",
+      "date": "2026-10-03 14:00",
+      "mode": "In-person",
+      "prize": "$300 Cash",
+      "status": "Upcoming",
+      "description": "1v1 LAN tournament at Main Gaming Arena. Bring your own controller."
     },
     {
       "id": "bgmi-showdown",
@@ -84,26 +129,26 @@
     }
   ],
   "announcements": [
-    "🔥 Valorant Weekend Cup Grand Finals are LIVE now! Watch stream in Spectator Portal.",
-    "🏆 Prize pool for BGMI Showdown increased to $1,000 courtesy of sponsors.",
-    "⚡ WebRTC live telemetry enabled: transmit match scores directly peer-to-peer.",
+    "Valorant Weekend Cup Grand Finals are LIVE now! Watch stream in Spectator Portal.",
+    "Prize pool for BGMI Showdown increased to $1,000 courtesy of sponsors.",
+    "WebRTC live telemetry enabled: transmit match scores directly peer-to-peer.",
     "Welcome to the Gaming Tournament Portal! Registrations are open for all listed tournaments."
   ],
   "reactions": {
     "🔥": 42,
     "👏": 28,
-    "🎮": 74,
+    "🎮": 65,
     "🏆": 31,
     "❤️": 19,
-    "⚡": 40
+    "⚡": 37
   },
   "streamConfig": {
-    "activeId": "5qap5aO4i9A",
-    "title": "CS2 Esports Arena",
+    "activeId": "VZig-3ABCjw",
+    "title": "VCT Highlights & Live",
     "presets": [
       {
         "name": "VCT Highlights & Live",
-        "videoId": "jfKfPfyJRdk"
+        "videoId": "VZig-3ABCjw"
       },
       {
         "name": "CS2 Esports Arena",
@@ -133,10 +178,7 @@
     "valorant-cup": [
       "player@gtp.com"
     ],
-    "fifa-clash": [],
-    "lol-5505": [
-      "player@gtp.com"
-    ]
+    "fifa-clash": []
   },
   "teams": [
     {
@@ -153,7 +195,6 @@
   ],
   "prizes": {
     "valorant-cup": "1st: $350 + Trophy, 2nd: $150",
-    "fifa-clash": "Winner: $300 + Gold Medal",
-    "lol-5505": "5000000"
+    "fifa-clash": "Winner: $300 + Gold Medal"
   }
 }
