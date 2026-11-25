@@ -53,7 +53,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <main className="container" style={{ paddingBottom: "10rem" }}>
+    <main className="container auth-container">
       <header className="page-header">
         <div>
           <h1>Login</h1>

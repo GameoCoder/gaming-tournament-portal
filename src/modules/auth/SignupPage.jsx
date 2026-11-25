@@ -36,7 +36,7 @@ export const SignupPage = () => {
   };
 
   return (
-    <main className="container" style={{ paddingBottom: "8rem" }}>
+    <main className="container auth-container">
       <header className="page-header">
         <div>
           <h1>Signup</h1>

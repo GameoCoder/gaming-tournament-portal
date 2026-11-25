@@ -25,7 +25,7 @@
 }
 
 .valorant-title {
-  font-size: 2rem;
+  font-size: clamp(1.55rem, 5vw, 2rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   margin: 0 0 0.35rem;
@@ -399,15 +399,73 @@
   justify-content: space-between;
 }
 
+.valorant-modal-portrait {
+  width: 120px;
+  aspect-ratio: 9 / 16;
+}
+
 .roster-input-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
 }
 
-@media (max-width: 600px) {
+@media (hover: none) {
+  .v-card.hovered,
+  .v-card:hover {
+    transform: none;
+  }
+
+  .v-card.hovered .v-card-image,
+  .v-card:hover .v-card-image {
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .valorant-showcase-container {
+    padding: 1rem 0.9rem 2.25rem;
+  }
+
+  .valorant-header {
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .valorant-cards-grid {
+    gap: 1.25rem;
+  }
+
+  .v-card-container {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .v-card {
+    aspect-ratio: 3 / 4;
+  }
+
+  .valorant-modal-backdrop {
+    padding: 0.75rem;
+  }
+
+  .valorant-modal {
+    padding: 1.2rem;
+    max-height: 90vh;
+  }
+
+  .valorant-modal-portrait {
+    width: 96px;
+    aspect-ratio: 3 / 4;
+  }
+
   .roster-input-row {
     grid-template-columns: 1fr;
+  }
+
+  .roster-input-group input,
+  .roster-input-group textarea {
+    font-size: 16px;
   }
 }
 

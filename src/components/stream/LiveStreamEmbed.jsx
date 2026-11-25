@@ -142,7 +142,7 @@ export const LiveStreamEmbed = ({ canEdit = false }) => {
               placeholder="Paste custom YouTube stream URL or Video ID..."
               value={customInput}
               onChange={(e) => setCustomInput(e.target.value)}
-              style={{ flex: 1, minWidth: "220px", marginTop: 0 }}
+              style={{ flex: "1 1 200px", minWidth: 0, marginTop: 0 }}
             />
             <button type="submit" style={{ whiteSpace: "nowrap" }}>
               Update Stream

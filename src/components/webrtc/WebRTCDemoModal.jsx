@@ -24,9 +24,9 @@ export const WebRTCDemoModal = ({ isOpen, onClose }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #2d3e58", paddingBottom: "0.8rem" }}>
-          <div>
-            <h2 style={{ margin: 0, fontSize: "1.4rem", color: "#fa9a00" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "0.75rem", borderBottom: "1px solid #2d3e58", paddingBottom: "0.8rem" }}>
+          <div style={{ minWidth: 0 }}>
+            <h2 style={{ margin: 0, fontSize: "clamp(1.1rem, 4vw, 1.4rem)", color: "#fa9a00" }}>
               ⚡ WebRTC P2P Data Channel Verification
             </h2>
             <p className="muted" style={{ margin: "4px 0 0", fontSize: "0.85rem" }}>
@@ -37,7 +37,8 @@ export const WebRTCDemoModal = ({ isOpen, onClose }) => {
             type="button"
             className="btn-secondary"
             onClick={onClose}
-            style={{ padding: "4px 10px", fontSize: "1.1rem", lineHeight: 1 }}
+            aria-label="Close modal"
+            style={{ padding: "4px 10px", fontSize: "1.1rem", lineHeight: 1, flexShrink: 0 }}
           >
             ✕
           </button>
@@ -62,7 +63,7 @@ export const WebRTCDemoModal = ({ isOpen, onClose }) => {
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "0.8rem", alignItems: "center" }}>
+        <div style={{ display: "flex", gap: "0.8rem", alignItems: "center", flexWrap: "wrap" }}>
           <button
             type="button"
             onClick={handleRunTest}
@@ -99,7 +100,7 @@ export const WebRTCDemoModal = ({ isOpen, onClose }) => {
         </div>
 
         {/* Code / Architecture reference for reviewer */}
-        <div style={{ borderTop: "1px solid #2d3e58", paddingTop: "0.8rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ borderTop: "1px solid #2d3e58", paddingTop: "0.8rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.6rem" }}>
           <span className="muted" style={{ fontSize: "0.8rem" }}>
             Standalone script: <code>node scripts/webrtc-demo.js</code>
           </span>

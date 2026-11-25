@@ -126,8 +126,8 @@ export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
     <main className="container">
       {/* Page Header */}
       <header className="page-header panel">
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+        <div style={{ minWidth: 0 }}>
+          <div className="badge-row">
             <span className="module-badge module-badge-player">User & Player Module</span>
             <span className="webrtc-badge">
               <span className="pulse-dot"></span>
@@ -169,7 +169,7 @@ export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
         </div>
 
         {/* Tournaments Catalog */}
-        <article className="panel" style={{ gridColumn: "span 2" }}>
+        <article className="panel panel-span-2">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.8rem", flexWrap: "wrap", gap: "0.5rem" }}>
             <div>
               <h3 style={{ margin: 0 }}>🎮 Available Tournaments</h3>
@@ -177,7 +177,7 @@ export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
                 Browse events and register with your squad
               </p>
             </div>
-            <div style={{ display: "flex", gap: "0.4rem" }}>
+            <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
               <button
                 type="button"
                 className="btn-secondary"
@@ -205,7 +205,7 @@ export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "0.8rem" }}>
+          <div className="cards-auto-grid">
             {filteredTournaments.map((tournament) => {
               const isRegistered = (registrations[tournament.id] || []).includes(user?.email);
               return (
@@ -356,31 +356,33 @@ export const PlayerDashboard = ({ onOpenWebRTCModal }) => {
         {/* Live Standings */}
         <article className="panel">
           <h3>Leaderboard Standings</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Team</th>
-                <th>Points</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[...leaderboard]
-                .sort((a, b) => b.points - a.points)
-                .slice(0, 5)
-                .map((row, idx) => (
-                  <tr key={idx}>
-                    <td style={{ color: idx === 0 ? "#fa9a00" : "inherit", fontWeight: 700 }}>
-                      #{idx + 1}
-                    </td>
-                    <td>{row.name}</td>
-                    <td>
-                      <strong style={{ color: "var(--accent)" }}>{row.points}</strong>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          <div className="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Team</th>
+                  <th>Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...leaderboard]
+                  .sort((a, b) => b.points - a.points)
+                  .slice(0, 5)
+                  .map((row, idx) => (
+                    <tr key={idx}>
+                      <td style={{ color: idx === 0 ? "#fa9a00" : "inherit", fontWeight: 700 }}>
+                        #{idx + 1}
+                      </td>
+                      <td>{row.name}</td>
+                      <td>
+                        <strong style={{ color: "var(--accent)" }}>{row.points}</strong>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
         </article>
 
         {/* Live Announcements */}

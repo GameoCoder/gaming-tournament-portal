@@ -164,11 +164,10 @@ export const AboutPage = () => {
               ✕
             </button>
 
-            <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: "1.25rem", flexWrap: "wrap" }}>
               <div
+                className="valorant-modal-portrait"
                 style={{
-                  width: "120px",
-                  aspectRatio: "9/16",
                   borderRadius: "6px",
                   overflow: "hidden",
                   border: `1px solid rgba(255, 255, 255, 0.15)`,
@@ -182,7 +181,7 @@ export const AboutPage = () => {
                 />
               </div>
 
-              <div style={{ flex: "1 1 300px" }}>
+              <div style={{ flex: "1 1 min(260px, 100%)", minWidth: 0 }}>
                 <span
                   style={{
                     fontSize: "0.75rem",

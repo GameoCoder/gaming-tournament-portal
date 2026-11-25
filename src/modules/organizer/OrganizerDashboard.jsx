@@ -187,8 +187,8 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
   return (
     <main className="container">
       <header className="page-header panel">
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+        <div style={{ minWidth: 0 }}>
+          <div className="badge-row">
             <span className="module-badge module-badge-admin">Organizer Module</span>
             <span className="webrtc-badge">
               <span className="pulse-dot"></span>
@@ -238,13 +238,7 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
           </div>
 
           <form onSubmit={handleSendRequest} className="stack">
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                gap: "0.8rem"
-              }}
-            >
+            <div className="form-grid-auto">
               <label>
                 Tournament Name
                 <input
@@ -351,7 +345,7 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
               No tournament requests submitted yet.
             </p>
           ) : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "0.8rem" }}>
+            <div className="cards-auto-grid">
               {myRequests.map((req) => {
                 const queueIdx = pendingQueue.findIndex((p) => p.id === req.id);
                 const statusColor =
@@ -423,7 +417,7 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
         {/* Registered Tournaments */}
         <article className="panel" style={{ gridColumn: "1 / -1" }}>
           <h3 style={{ marginBottom: "0.8rem" }}>Registered Tournaments</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "0.8rem" }}>
+          <div className="cards-auto-grid">
             {tournaments.map((t) => {
               const enrolled = registrations[t.id] || [];
               return (
@@ -454,7 +448,7 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
 
         {/* WebRTC Match Broadcaster */}
         <article className="panel" style={{ border: "1px solid rgba(74, 222, 128, 0.5)" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
             <h3 style={{ margin: 0, color: "var(--accent)" }}>WebRTC Match Broadcaster</h3>
             <span className="webrtc-badge">
               <span className="pulse-dot"></span>
@@ -466,7 +460,7 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
           </p>
 
           <form onSubmit={handleBroadcastTelemetry} className="stack">
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
+            <div className="form-grid-2">
               <label>
                 Team A Name
                 <input
@@ -486,7 +480,7 @@ export const OrganizerDashboard = ({ onOpenWebRTCModal }) => {
                 />
               </label>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem" }}>
+            <div className="form-grid-3">
               <label>
                 Score A
                 <input

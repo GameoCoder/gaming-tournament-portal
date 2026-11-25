@@ -101,8 +101,8 @@ export const SpectatorDashboard = ({ onOpenWebRTCModal }) => {
 
       {/* Header */}
       <header className="page-header panel">
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+        <div style={{ minWidth: 0 }}>
+          <div className="badge-row">
             <span className="module-badge module-badge-spectator">Spectator & Broadcast Module</span>
             <span className="webrtc-badge">
               <span className="pulse-dot"></span>
@@ -173,32 +173,34 @@ export const SpectatorDashboard = ({ onOpenWebRTCModal }) => {
         {/* Leaderboard */}
         <article className="panel">
           <h3>🏆 Tournament Leaderboard</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Team</th>
-                <th>Matches</th>
-                <th>Points</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[...leaderboard]
-                .sort((a, b) => b.points - a.points)
-                .map((row, idx) => (
-                  <tr key={idx}>
-                    <td style={{ color: idx === 0 ? "#fa9a00" : "inherit", fontWeight: 700 }}>
-                      #{idx + 1}
-                    </td>
-                    <td>{row.name}</td>
-                    <td>{row.matches || 0}</td>
-                    <td>
-                      <strong style={{ color: "var(--accent)" }}>{row.points}</strong>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          <div className="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Team</th>
+                  <th>Matches</th>
+                  <th>Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...leaderboard]
+                  .sort((a, b) => b.points - a.points)
+                  .map((row, idx) => (
+                    <tr key={idx}>
+                      <td style={{ color: idx === 0 ? "#fa9a00" : "inherit", fontWeight: 700 }}>
+                        #{idx + 1}
+                      </td>
+                      <td>{row.name}</td>
+                      <td>{row.matches || 0}</td>
+                      <td>
+                        <strong style={{ color: "var(--accent)" }}>{row.points}</strong>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
         </article>
 
         {/* Live Updates Feed */}

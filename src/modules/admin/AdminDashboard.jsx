@@ -316,8 +316,8 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
     <main className="container">
       {/* Top Header */}
       <header className="page-header panel">
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+        <div style={{ minWidth: 0 }}>
+          <div className="badge-row">
             <span className="module-badge module-badge-admin">Admin Module</span>
             <span className="webrtc-badge">
               <span className="pulse-dot"></span>
@@ -401,7 +401,7 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
                             gap: "1rem"
                           }}
                         >
-                          <div style={{ flex: "1 1 320px" }}>
+                          <div style={{ flex: "1 1 min(280px, 100%)", minWidth: 0 }}>
                             <strong style={{ fontSize: "1.05rem", color: "#f8fafc" }}>
                               #{index + 1} — {req.name}
                             </strong>
@@ -418,7 +418,8 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
                               display: "flex",
                               alignItems: "center",
                               gap: "0.6rem",
-                              flexWrap: "wrap"
+                              flexWrap: "wrap",
+                              maxWidth: "100%"
                             }}
                           >
                             <select
@@ -483,7 +484,7 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
 
           {showCreateTourney && (
             <form onSubmit={handleCreateTournament} className="stack" style={{ background: "#0b1424", padding: "1rem", borderRadius: "10px", marginBottom: "1rem" }}>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "0.8rem" }}>
+              <div className="form-grid-auto">
                 <label>
                   Tournament Name
                   <input
@@ -550,7 +551,7 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
             </form>
           )}
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "0.8rem" }}>
+          <div className="cards-auto-grid">
             {tournaments.map((tournament) => {
               const enrolled = registrations[tournament.id] || [];
               const prize = prizes[tournament.id] || tournament.prize;
@@ -620,7 +621,7 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
 
         {/* WebRTC Live Telemetry Broadcaster (Requirement #1) */}
         <article className="panel" style={{ border: "1px solid rgba(74, 222, 128, 0.5)" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
             <h3 style={{ margin: 0, color: "var(--accent)" }}>⚡ WebRTC Match Broadcaster</h3>
             <span className="webrtc-badge">
               <span className="pulse-dot"></span>
@@ -632,7 +633,7 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
           </p>
 
           <form onSubmit={handleBroadcastTelemetry} className="stack">
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
+            <div className="form-grid-2">
               <label>
                 Team A Name
                 <input
@@ -653,7 +654,7 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
               </label>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.5rem" }}>
+            <div className="form-grid-3">
               <label>
                 Score A
                 <input
@@ -848,32 +849,34 @@ export const AdminDashboard = ({ onOpenWebRTCModal }) => {
         {/* Leaderboard */}
         <article className="panel">
           <h3>Live Standings & Leaderboard</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Rank</th>
-                <th>Team / Player</th>
-                <th>Wins</th>
-                <th>Points</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[...leaderboard]
-                .sort((a, b) => b.points - a.points)
-                .map((row, idx) => (
-                  <tr key={idx}>
-                    <td style={{ color: idx === 0 ? "#fa9a00" : "inherit", fontWeight: 700 }}>
-                      #{idx + 1}
-                    </td>
-                    <td>{row.name}</td>
-                    <td>{row.wins || 0}</td>
-                    <td>
-                      <strong style={{ color: "var(--accent)" }}>{row.points}</strong>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          <div className="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Team / Player</th>
+                  <th>Wins</th>
+                  <th>Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...leaderboard]
+                  .sort((a, b) => b.points - a.points)
+                  .map((row, idx) => (
+                    <tr key={idx}>
+                      <td style={{ color: idx === 0 ? "#fa9a00" : "inherit", fontWeight: 700 }}>
+                        #{idx + 1}
+                      </td>
+                      <td>{row.name}</td>
+                      <td>{row.wins || 0}</td>
+                      <td>
+                        <strong style={{ color: "var(--accent)" }}>{row.points}</strong>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
         </article>
 
         {/* Live Updates Feed */}

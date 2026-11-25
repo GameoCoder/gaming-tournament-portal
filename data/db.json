@@ -1,5 +1,5 @@
 {
-  "_resetVersion": 1795616979983,
+  "_resetVersion": 1795627910492,
   "users": [
     {
       "username": "AdminGT",
@@ -143,12 +143,12 @@
     "⚡": 37
   },
   "streamConfig": {
-    "activeId": "VZig-3ABCjw",
-    "title": "VCT Highlights & Live",
+    "activeId": "jfKfPfyJRdk",
+    "title": "Official GTP Esports Main Stage",
     "presets": [
       {
         "name": "VCT Highlights & Live",
-        "videoId": "VZig-3ABCjw"
+        "videoId": "jfKfPfyJRdk"
       },
       {
         "name": "CS2 Esports Arena",

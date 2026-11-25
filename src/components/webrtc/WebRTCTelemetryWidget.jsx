@@ -66,7 +66,7 @@ export const WebRTCTelemetryWidget = ({ onOpenTestModal }) => {
           </p>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <div className="badge-row">
           <span
             className="webrtc-badge"
             title={`WebRTC Data Channel: ${webrtcStatus.channelState}`}
@@ -100,7 +100,7 @@ export const WebRTCTelemetryWidget = ({ onOpenTestModal }) => {
           gap: "0.8rem"
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #23334c", paddingBottom: "0.5rem" }}>
+        <div className="telemetry-header-row">
           <span style={{ fontWeight: 700, color: "var(--accent-2)" }}>{matchState.tournamentId.toUpperCase()}</span>
           <span style={{ fontSize: "0.85rem", color: "#facc15", background: "rgba(250, 204, 21, 0.15)", padding: "2px 8px", borderRadius: "6px" }}>
             Map: {matchState.map || "Haven"} • Round {matchState.round || 1} ({matchState.roundTime || "0:00"})
@@ -108,19 +108,19 @@ export const WebRTCTelemetryWidget = ({ onOpenTestModal }) => {
         </div>
 
         {/* Teams and Scores */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around", padding: "0.5rem 0" }}>
-          <div style={{ textAlign: "center", flex: 1 }}>
-            <div style={{ fontSize: "1.2rem", fontWeight: 700, color: "#e2e8f0" }}>{matchState.teamA}</div>
-            <div style={{ fontSize: "2.5rem", fontWeight: 800, color: "#4ade80", lineHeight: 1.1 }}>{matchState.scoreA}</div>
+        <div className="telemetry-scoreboard">
+          <div className="telemetry-team">
+            <div className="telemetry-team-name">{matchState.teamA}</div>
+            <div className="telemetry-score" style={{ color: "#4ade80" }}>{matchState.scoreA}</div>
           </div>
 
-          <div style={{ fontSize: "1.2rem", fontWeight: 700, color: "var(--muted)", padding: "0 1rem" }}>
+          <div className="telemetry-vs">
             VS
           </div>
 
-          <div style={{ textAlign: "center", flex: 1 }}>
-            <div style={{ fontSize: "1.2rem", fontWeight: 700, color: "#e2e8f0" }}>{matchState.teamB}</div>
-            <div style={{ fontSize: "2.5rem", fontWeight: 800, color: "#38bdf8", lineHeight: 1.1 }}>{matchState.scoreB}</div>
+          <div className="telemetry-team">
+            <div className="telemetry-team-name">{matchState.teamB}</div>
+            <div className="telemetry-score" style={{ color: "#38bdf8" }}>{matchState.scoreB}</div>
           </div>
         </div>
 
